@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CryoAnomaly: Few-Shot Cryo-EM Particle Picking via Anomaly-Guided Hard Negative Suppression">
+    <title>CryoAnomaly</title>
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans:400,700|Castoro" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="paper.css">
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <div class="content">
+          <h1>CryoAnomaly</h1>
+          <p class="subtitle">Few-Shot Cryo-EM Particle Picking via Anomaly-Guided Hard Negative Suppression</p>
+
+          <div class="authors" aria-label="Authors">
+            <span>Riku Itsuji<sup>1</sup></span>
+            <span>Rintaro Otsubo<sup>1</sup></span>
+            <span>Ryo Fujii<sup>1</sup></span>
+            <span>Xingjian Li<sup>2</sup></span>
+            <span>Xiaolong Wu<sup>2</sup></span>
+            <span>Hideo Saito<sup>1</sup></span>
+            <span>Min Xu<sup>2</sup></span>
+          </div>
+
+          <div class="affiliations">
+            <span><sup>1</sup>Keio University, Yokohama, Japan</span>
+            <span><sup>2</sup>Carnegie Mellon University, Pittsburgh, USA</span>
+          </div>
+
+          <div class="actions" aria-label="Project links">
+            <a class="button disabled" aria-disabled="true" title="Coming soon">
+              <span class="icon"><i class="ai ai-arxiv"></i></span>
+              <span>arXiv</span>
+            </a>
+            <a class="button" href="https://github.com/riku359/CryoAnomaly" target="_blank" rel="noopener">
+              <span class="icon"><i class="fa-brands fa-github"></i></span>
+              <span>Code</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="teaser-section">
+        <div class="content">
+          <figure class="teaser">
+            <video class="project-figure teaser-video" controls autoplay muted loop playsinline preload="metadata" poster="assets/teaser.png">
+              <source src="assets/teaser_movie.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <img class="project-figure" src="assets/teaser.png" alt="Overview of the CryoAnomaly pipeline">
+            <figcaption>
+              Overview of the CryoAnomaly pipeline. It bridges the Sim2Real gap through synthetic pre-training (Step 1),
+              data preparation via anomaly detection and active learning (Step 2), and fine-tuning with anomaly-guided
+              suppression (Step 3).
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="content narrow">
+          <h2>Abstract</h2>
+          <p>
+            Cryo-electron microscopy (cryo-EM) is crucial for analyzing 3D biological structures, in which automated
+            particle picking is essential for the workflow. However, fully supervised methods require extensive manual
+            annotations. While few-shot learning offers a potential solution, existing approaches struggle to handle the
+            diverse contaminations inherent in real micrographs owing to insufficient negative supervision, resulting in
+            false positives that degrade the quality of the 3D reconstruction. Although synthetic data provides abundant
+            and perfect labels, their use has primarily been restricted to validating identical proteins or augmenting
+            full-shot training, leaving the potential for few-shot adaptation to novel proteins unexplored.
+          </p>
+          <p>
+            In this study, we investigate the effective utilization of synthetic data for few-shot particle picking.
+            We identify that direct transfer fails due to a &ldquo;clean-vs-contaminated&rdquo; Sim2Real gap. To overcome
+            this, we propose <strong>CryoAnomaly</strong>, a framework that turns this gap into an advantage. By employing
+            an anomaly detector trained on clean synthetic data, we identify real-world contaminants as anomalies and
+            suppress them via a novel anomaly-guided hard negative suppression loss.
+          </p>
+          <p>
+            On the CryoPPP benchmark, CryoAnomaly achieves the best picking accuracy and reconstruction resolution among
+            state-of-the-art methods in the few-shot setting. The proposed anomaly-guided loss is confirmed to be
+            effective on datasets with diverse contamination, where reliable pseudo-anomaly masks can be generated.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="content">
+          <h2>Main Results</h2>
+          <p class="table-note">
+            1-shot comparison on five CryoPPP datasets under the same target-domain annotation budget. Baselines are
+            reported as mean&plusmn;standard deviation; CryoAnomaly is deterministic and evaluated once.
+            <strong>Best</strong> results in bold, <span class="u">second-best</span> underlined.
+            Resolution: 3-trial average GSFSC (&#8491;).
+          </p>
+          <div class="table-wrap" role="region" aria-label="Main results table" tabindex="0">
+            <table class="results-table">
+              <thead>
+                <tr>
+                  <th>Method / EMPIAR-ID</th>
+                  <th>10081</th>
+                  <th>10093</th>
+                  <th>10345</th>
+                  <th>10532</th>
+                  <th>11056</th>
+                  <th>AVG</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="group"><th colspan="7">Precision (&uarr;)</th></tr>
+                <tr><th>crYOLO</th><td>0.592&plusmn;0.185</td><td>0.356&plusmn;0.231</td><td><span class="u">0.523&plusmn;0.285</span></td><td>0.262&plusmn;0.153</td><td>0.183&plusmn;0.161</td><td>0.383</td></tr>
+                <tr><th>Topaz</th><td>0.180&plusmn;0.010</td><td>0.227&plusmn;0.008</td><td>0.056&plusmn;0.003</td><td>0.384&plusmn;0.028</td><td>0.353&plusmn;0.016</td><td>0.240</td></tr>
+                <tr><th>CryoSegNet</th><td><span class="u">0.601&plusmn;0.086</span></td><td><span class="u">0.365&plusmn;0.054</span></td><td>0.423&plusmn;0.179</td><td><span class="u">0.522&plusmn;0.042</span></td><td><span class="u">0.576&plusmn;0.030</span></td><td><span class="u">0.497</span></td></tr>
+                <tr><th>CryoFSL</th><td>0.329&plusmn;0.027</td><td>0.181&plusmn;0.025</td><td>0.138&plusmn;0.024</td><td>0.244&plusmn;0.059</td><td>0.276&plusmn;0.012</td><td>0.234</td></tr>
+                <tr class="ours"><th>CryoAnomaly (Ours)</th><td><strong>0.717</strong></td><td><strong>0.366</strong></td><td><strong>0.526</strong></td><td><strong>0.574</strong></td><td><strong>0.651</strong></td><td><strong>0.567</strong></td></tr>
+
+                <tr class="group"><th colspan="7">Recall (&uarr;)</th></tr>
+                <tr><th>crYOLO</th><td>0.594&plusmn;0.228</td><td>0.199&plusmn;0.286</td><td>0.291&plusmn;0.242</td><td>0.582&plusmn;0.304</td><td>0.733&plusmn;0.034</td><td>0.480</td></tr>
+                <tr><th>Topaz</th><td><strong>0.922&plusmn;0.107</strong></td><td><strong>0.967&plusmn;0.030</strong></td><td><span class="u">0.746&plusmn;0.140</span></td><td><strong>0.917&plusmn;0.077</strong></td><td><strong>0.795&plusmn;0.137</strong></td><td><strong>0.869</strong></td></tr>
+                <tr><th>CryoSegNet</th><td>0.722&plusmn;0.078</td><td>0.381&plusmn;0.050</td><td>0.512&plusmn;0.155</td><td>0.334&plusmn;0.170</td><td>0.636&plusmn;0.046</td><td>0.517</td></tr>
+                <tr><th>CryoFSL</th><td><span class="u">0.853&plusmn;0.083</span></td><td><span class="u">0.608&plusmn;0.055</span></td><td><strong>0.826&plusmn;0.138</strong></td><td><span class="u">0.664&plusmn;0.090</span></td><td><span class="u">0.788&plusmn;0.031</span></td><td><span class="u">0.748</span></td></tr>
+                <tr class="ours"><th>CryoAnomaly (Ours)</th><td>0.848</td><td>0.527</td><td>0.691</td><td>0.481</td><td>0.568</td><td>0.623</td></tr>
+
+                <tr class="group"><th colspan="7">F1 Score (&uarr;)</th></tr>
+                <tr><th>crYOLO</th><td>0.524&plusmn;0.188</td><td>0.116&plusmn;0.076</td><td>0.334&plusmn;0.251</td><td>0.276&plusmn;0.099</td><td>0.268&plusmn;0.131</td><td>0.304</td></tr>
+                <tr><th>Topaz</th><td>0.300&plusmn;0.011</td><td><span class="u">0.367&plusmn;0.010</span></td><td>0.104&plusmn;0.004</td><td><strong>0.539&plusmn;0.019</strong></td><td>0.485&plusmn;0.030</td><td>0.359</td></tr>
+                <tr><th>CryoSegNet</th><td><span class="u">0.654&plusmn;0.076</span></td><td><span class="u">0.367&plusmn;0.019</span></td><td><span class="u">0.415&plusmn;0.112</span></td><td>0.384&plusmn;0.126</td><td><span class="u">0.603&plusmn;0.025</span></td><td><span class="u">0.485</span></td></tr>
+                <tr><th>CryoFSL</th><td>0.468&plusmn;0.019</td><td>0.275&plusmn;0.021</td><td>0.230&plusmn;0.030</td><td>0.346&plusmn;0.060</td><td>0.408&plusmn;0.012</td><td>0.345</td></tr>
+                <tr class="ours"><th>CryoAnomaly (Ours)</th><td><strong>0.777</strong></td><td><strong>0.432</strong></td><td><strong>0.597</strong></td><td><span class="u">0.523</span></td><td><strong>0.607</strong></td><td><strong>0.587</strong></td></tr>
+
+                <tr class="group"><th colspan="7">Resolution (&#8491;) (&darr;)</th></tr>
+                <tr><th>crYOLO</th><td>10.57&plusmn;0.08</td><td>22.81&plusmn;4.58</td><td>55.88&plusmn;39.55</td><td>14.06&plusmn;8.75</td><td>&ndash;</td><td>25.83</td></tr>
+                <tr><th>Topaz</th><td>16.89&plusmn;0.23</td><td>13.72&plusmn;0.56</td><td>17.56&plusmn;0.83</td><td>8.26&plusmn;0.05</td><td>&ndash;</td><td>14.11</td></tr>
+                <tr><th>CryoSegNet</th><td>9.36&plusmn;0.08</td><td><span class="u">8.58&plusmn;0.04</span></td><td>22.31&plusmn;0.47</td><td>5.92&plusmn;0.11</td><td>&ndash;</td><td>11.54</td></tr>
+                <tr><th>CryoFSL</th><td><span class="u">8.83&plusmn;0.10</span></td><td>8.65&plusmn;0.05</td><td><span class="u">17.38&plusmn;0.21</span></td><td><span class="u">5.78&plusmn;0.27</span></td><td>&ndash;</td><td><span class="u">10.16</span></td></tr>
+                <tr class="ours"><th>CryoAnomaly (Ours)</th><td><strong>8.68</strong></td><td><strong>8.06</strong></td><td><strong>16.26</strong></td><td><strong>4.85</strong></td><td>&ndash;</td><td><strong>9.46</strong></td></tr>
+
+                <tr class="group"><th colspan="7"># Picked</th></tr>
+                <tr><th>crYOLO</th><td>17,585&plusmn;30,451</td><td>17,554&plusmn;32,816</td><td>1,060&plusmn;936</td><td>65,002&plusmn;43,636</td><td>138,925&plusmn;37,547</td><td>48,025</td></tr>
+                <tr><th>Topaz</th><td>48,986&plusmn;3,008</td><td>49,051&plusmn;2,064</td><td>47,343&plusmn;2,697</td><td>56,336&plusmn;6,373</td><td>60,884&plusmn;11,765</td><td>52,520</td></tr>
+                <tr><th>CryoSegNet</th><td>10,561&plusmn;1,214</td><td>12,073&plusmn;3,369</td><td>4,330&plusmn;3,658</td><td>14,091&plusmn;7,421</td><td>29,806&plusmn;2,817</td><td>14,172</td></tr>
+                <tr><th>CryoFSL</th><td>11,935&plusmn;980</td><td>17,821&plusmn;2,591</td><td>5,286&plusmn;1,394</td><td>35,065&plusmn;5,823</td><td>35,836&plusmn;2,163</td><td>21,189</td></tr>
+                <tr class="ours"><th>CryoAnomaly (Ours)</th><td>10,284</td><td>16,069</td><td>3,244</td><td>18,343</td><td>23,475</td><td>14,283</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-foot">
+            <p>* 3D reconstruction parameters for EMPIAR-11056 were not available.</p>
+            <p>* crYOLO, Topaz, and CryoSegNet were originally proposed as fully supervised methods, whereas CryoFSL and
+              CryoAnomaly are few-shot methods. We evaluate them in the common 1-shot setting for a fair comparison.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="content">
+          <h2>Qualitative Results</h2>
+
+          <figure class="fig-block">
+            <img class="project-figure" src="assets/qualitative_picking.png" alt="Qualitative particle-picking comparison">
+            <figcaption>
+              Qualitative comparison of particle picking with and without the anomaly-guided loss. Green, blue, and red
+              circles denote the ground truth, our predictions, and predictions without anomaly loss, respectively. Yellow
+              boxes highlight false positives on contaminants, which are prominent when the anomaly loss is excluded.
+            </figcaption>
+          </figure>
+
+          <figure class="fig-block">
+            <img class="project-figure" src="assets/reconstruction_3d.png" alt="3D reconstruction local-resolution maps">
+            <figcaption>
+              Local resolution maps of the full-set 3D reconstructions on EMPIAR-10081 for CryoAnomaly, CryoSegNet, and
+              CryoFSL. Blue indicates finer local resolution, whereas red indicates coarser local resolution. Median local
+              resolution values are annotated on each panel.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <div class="content">
+        <p>CryoAnomaly project page.</p>
+      </div>
+    </footer>
+
+  </body>
+</html>
