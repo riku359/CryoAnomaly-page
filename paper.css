@@ -44,10 +44,16 @@ a:hover {
 }
 
 .venue {
-  margin: 0 0 10px;
+  margin: 0 0 14px;
   color: var(--muted);
   font-family: "Google Sans", "Noto Sans", Arial, Helvetica, sans-serif;
-  font-size: 15px;
+  font-size: clamp(18px, 2.2vw, 22px);
+  letter-spacing: 0.01em;
+}
+
+.venue strong {
+  color: var(--text);
+  font-weight: 600;
 }
 
 h1 {
