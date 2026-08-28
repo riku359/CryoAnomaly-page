@@ -1,6 +1,6 @@
 # CryoAnomaly Project Page
 
-Local static project page for **CryoAnomaly: Few-Shot Cryo-EM Particle Picking via Anomaly-Guided Hard Negative Suppression**.
+Local static project page for **CryoAnomaly: Few-Shot Cryo-EM Particle Picking via Anomaly-Guided Hard Negative Suppression**, accepted to **IEEE Access** (2026).
 
 Open:
 
